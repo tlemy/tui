@@ -41,6 +41,14 @@ void free_rect(Rect *rect)
         free(rect);
 }
 
+void free_multiple_rect(int len, Rect **rect) 
+{
+	for (int i = 0; i < len; i++) 
+	{
+		free_rect(rect[i]);
+	}
+}
+
 int draw_rect(Rect *rect) 
 {
 	int res = printf("\033[%d;%dH\033[38;2;%d;%d;%dm%s\033[0m", rect->y, rect->x, rect->r, rect->g, rect->b, rect->str);

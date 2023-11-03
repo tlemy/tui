@@ -1,6 +1,7 @@
 #include "../include/Screen.h"
 #include "../include/Logger.h"
-#include "../include/Rect.h" 
+#include "../include/Rect.h"
+#include "../include/Control.h"
 #include "../include/common.h"
 
 int main(int argc, char *argv[])
@@ -32,36 +33,55 @@ int main(int argc, char *argv[])
 
 	command_screen(CLEAR_SCREEN);
 	command_screen(HIDE_CURSOR);
+	init_control();
 
 	int x_mov = 2;
 	int y_mov = 1;
-	char coordinates[20];
-	FILE *logs = init_logs("./logs/bouncing_ball.log");
+	char keys[20];
+	FILE *logs = init_logs("./logs/move_ball.log");
+	char c = '\0';
 
 	for (;;) 
 	{
 		command_screen(CLEAR_SCREEN);
 		command_screen(ERASE_SCROLLBACK_BUFFER);
-                command_screen(MOVE_CURSOR_TOP_LEFT);
 		
-		draw_multiple_rect(4, image);
-		sprintf(coordinates, "bounce: %d, %d\n", bottom_right_square->x, bottom_right_square->y);
-
-		if (top_left_square->x + x_mov <= 0 || top_right_square->x + x_mov > w) 
+		c = getch();
+		
+		if (c == 'w') 
 		{
-			x_mov *= -1;
-			write_log(logs, coordinates);
-
+			move_multiple_rect_by(0, y_mov * -1, 4, image);
+                	sprintf(keys, "up\n");
+                        write_log(logs, keys);
 		}
 
-		if (top_left_square->y + y_mov <= 0 || bottom_left_square->y + y_mov > h)
+		else if (c == 's')
                 {
-                        y_mov *= -1;
-			write_log(logs, coordinates);
+                        move_multiple_rect_by(0, y_mov, 4, image);
+                        sprintf(keys, "down\n");
+                        write_log(logs, keys);
                 }
 
-		move_multiple_rect_by(x_mov, y_mov, 4, image);		
+		else if (c == 'a')
+                {
+                        move_multiple_rect_by(x_mov * -1, 0, 4, image);
+                        sprintf(keys, "left\n");
+                        write_log(logs, keys);
+                }
 
+		else if (c == 'd')
+                {
+                        move_multiple_rect_by(x_mov, 0, 4, image);
+                        sprintf(keys, "right\n");
+                        write_log(logs, keys);
+                }
+		else if (c == 'q') 
+		{
+			break;
+		}
+
+		draw_multiple_rect(4, image);
+		
 		save_screen();
 		usleep(20 * 1000);
 	}

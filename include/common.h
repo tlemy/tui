@@ -4,5 +4,4 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <assert.h>
-#include <wchar.h>
+#include <ncurses.h>
