@@ -43,7 +43,7 @@ void try_command_screen(void)
 
 void try_init_logs(void) 
 {
-	char fname[] = "./build/test_logs.txt";
+	char fname[] = "./logs/test_logs.txt";
 
 	FILE *logs = init_logs(fname);
 

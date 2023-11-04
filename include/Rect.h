@@ -1,5 +1,5 @@
 
-typedef struct 
+typedef struct Rect
 {
 	int y;
 	int x;
