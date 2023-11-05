@@ -6,3 +6,4 @@ ROWS=$(tput lines)
 ./build/snake $LINES $ROWS
 
 xset r rate
+reset

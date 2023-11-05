@@ -6,3 +6,4 @@ ROWS=$(tput lines)
 ./build/move_ball $LINES $ROWS
 
 xset r rate
+reset
