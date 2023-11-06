@@ -2,6 +2,7 @@
 #include "../include/Logger.h"
 #include "../include/Snake.h"
 #include "../include/Control.h"
+#include "../include/Random.h"
 #include "../include/common.h"
 
 int main(int argc, char *argv[]) 
@@ -38,34 +39,36 @@ int main(int argc, char *argv[])
 	int inc_y = heigth_square;
 	int dec_y = inc_y * -1;
 
-	int r = 240;
-	int g = 240;
-	int b = 240;
+	int r = 255;
+	int g = 255;
+	int b = 255;
 
 	int millisecs = 100;
 
 	Rect *top_head = create_rect(init_x, init_y, 0, g, 0, half_square);
 	Rect *bottom_head = create_rect(init_x, init_y + 1, 0, g, 0, half_square);
-	Rect *top_body = create_rect(init_x + width_square, init_y, 0, g - 5, 0, half_square);
-	Rect *bottom_body = create_rect(init_x + width_square, init_y + 1, 0, g - 5, 0, half_square);
-	Rect *top_tail = create_rect(init_x + width_square * 2, init_y, 0, g - 10, 0, half_square);
-	Rect *bottom_tail = create_rect(init_x + width_square * 2, init_y + 1, 0, g - 10, 0, half_square);
+	Rect *top_body = create_rect(init_x + width_square, init_y, 0, g - 1, 0, half_square);
+	Rect *bottom_body = create_rect(init_x + width_square, init_y + 1, 0, g - 1, 0, half_square);
+	Rect *top_body_2 = create_rect(init_x + width_square * 2, init_y, 0, g - 2, 0, half_square);
+	Rect *bottom_body_2 = create_rect(init_x + width_square * 2, init_y + 1, 0, g - 2, 0, half_square);
 	Rect *top_apple = create_rect(w / 2, init_y, r, 0, 0, half_square);
         Rect *bottom_apple = create_rect(w / 2, init_y + 1, r, 0, 0, half_square);
 
 	Rect *head[2] = { top_head, bottom_head };
 	Rect *body[2] = { top_body, bottom_body };
-	Rect *tail[2] = { top_tail, bottom_tail };
+	Rect *body_2[2] = { top_body_2, bottom_body_2 };
 	Rect *apple[2] = { top_apple, bottom_apple };
 
 	Snake *snake_head = create_snake(head, 2, NULL, LEFT, dec_x, 0);
 	Snake *snake_body = create_snake(body, 2, snake_head, LEFT, 0, 0);
-	Snake *snake_tail = create_snake(tail, 2, snake_body, LEFT, 0, 0);
+	Snake *snake_body_2 = create_snake(body_2, 2, snake_body, LEFT, 0, 0);
 	Snake *snake_apple = create_snake(apple, 2, NULL, BORDER, 0, 0);
 
 	command_screen(CLEAR_SCREEN);
         command_screen(HIDE_CURSOR);
 	init_control(); // IMPORTANT: getch in control_snake won't work without this
+	
+	Snake *snake_tail = snake_body_2;
 	
 	for (;;) 
 	{
@@ -76,13 +79,21 @@ int main(int argc, char *argv[])
 		{
 			break;
 		}
-		if (check_collision_with_snake(snake_head, snake_apple, width_square, heigth_square)) 
+		if (check_collision_with_apple(snake_head, snake_apple, width_square, heigth_square)) 
 		{
+			int rand_x = get_rand_int_in_range(1, w);
+			int rand_y = get_rand_int_in_range(0, h);
+			
+			char log[20];
+			sprintf(log, "new position: x=%d, y=%d\n", rand_x, rand_y);
+			write_log(logs, &log);
+
 			for (int i = 0; i < snake_apple->len; i++) 
 			{
-				//snake_apple->rects[i]->x = init_x;
-				snake_apple->rects[i]->y += heigth_square;
-			}	
+				snake_apple->rects[i]->x = rand_x;
+				snake_apple->rects[i]->y = rand_y + i;
+			}
+			snake_tail = add_to_tail_snake(snake_tail, width_square, heigth_square);	
 		}
 		if (!check_border_collision_snake(snake_head, w, h, width_square, heigth_square)) 
 		{
@@ -93,6 +104,10 @@ int main(int argc, char *argv[])
 			snake_head->dir = BORDER;
 		}
 		
+		char log[20];
+                sprintf(log, "snake: x=%d, y=%d\n", snake_head->rects[0]->x, snake_head->rects[0]->y);
+                write_log(logs, &log);
+			
 		draw_multiple_rect(snake_apple->len, snake_apple->rects);	
 		draw_and_move_snake(snake_head, snake_tail, w, h, width_square, heigth_square);
 		save_screen();

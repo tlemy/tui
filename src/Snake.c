@@ -110,18 +110,50 @@ void draw_and_move_snake(Snake *snake_head, Snake *snake, int w, int h, int widt
         }
 }
 
-int check_collision_with_snake(Snake *main_snake, Snake *other_snake, int width_square, int heigth_square) 
+int check_collision_with_apple(Snake *snake, Snake *apple, int width_square, int heigth_square) 
 {
-	int left_border = other_snake->rects[0]->x;
-	int right_border = other_snake->rects[0]->x + width_square;
-	int top_border = other_snake->rects[0]->y;
-        int bottom_border = other_snake->rects[0]->y + heigth_square;
+	int left_border = apple->rects[0]->x;
+	int right_border = apple->rects[0]->x + width_square;
+	int top_border = apple->rects[0]->y;
+        int bottom_border = apple->rects[0]->y + heigth_square;
 
-       	int is_in_x = (left_border < main_snake->rects[0]->x && main_snake->rects[0]->x < right_border) 
-	|| (left_border < main_snake->rects[0]->x + width_square && main_snake->rects[0]->x + width_square < right_border);
+       	int is_in_x = (left_border <= snake->rects[0]->x && snake->rects[0]->x <= right_border) 
+	|| (left_border <= snake->rects[0]->x + width_square && snake->rects[0]->x + width_square <= right_border);
 	
-	int is_in_y = (top_border < main_snake->rects[0]->y && main_snake->rects[0]->y < bottom_border)
-	|| (top_border == main_snake->rects[0]->y && main_snake->rects[0]->y + heigth_square == bottom_border);
+	int is_in_y = (top_border <= snake->rects[0]->y && snake->rects[0]->y <= bottom_border)
+	|| (top_border <= snake->rects[0]->y && snake->rects[0]->y + heigth_square <= bottom_border);
 
 	return is_in_x && is_in_y;	
+}
+
+Snake *add_to_tail_snake(Snake *snake_tail, int width_square, int height_square) 
+{
+	int x = snake_tail->rects[0]->x;
+	int y = snake_tail->rects[0]->y;
+
+	if (snake_tail->dir == LEFT) 
+	{
+		x += width_square;
+	}
+	else if (snake_tail->dir == RIGHT) 
+	{
+		x -= width_square;
+	}
+	else if (snake_tail->dir == UP) 
+	{
+		y += height_square;
+	}
+	else if (snake_tail->dir == DOWN) 
+	{
+		y -= height_square;
+	}
+
+	Rect *top_tail = create_rect(x, y, 0, snake_tail->rects[0]->g - (snake_tail->i + 1), 0, snake_tail->rects[0]->str);
+        Rect *bottom_tail = create_rect(x, y + 1, 0, snake_tail->rects[0]->g - (snake_tail->i + 1), 0, snake_tail->rects[0]->str);
+	Rect **tail = (Rect **) malloc(sizeof (Rect *) * 2);
+	tail[0] = top_tail;
+	tail[1] = bottom_tail;
+	Snake *new_snake_tail = create_snake(tail, snake_tail->len, snake_tail, snake_tail->dir, 0, 0);
+	
+	return new_snake_tail;
 }

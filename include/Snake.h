@@ -35,4 +35,6 @@ int check_border_collision_snake(Snake *snake_head, int w, int h, int width_squa
 
 void draw_and_move_snake(Snake *snake_head, Snake *snake, int w, int h, int width_square, int heigth_square);
 
-int check_collision_with_snake(Snake *main_snake, Snake *other_snake, int width_square, int heigth_square);
+int check_collision_with_apple(Snake *snake, Snake *apple, int width_square, int heigth_square);
+
+Snake *add_to_tail_snake(Snake *snake_tail, int width_square, int height_square);
