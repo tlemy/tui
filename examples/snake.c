@@ -47,28 +47,30 @@ int main(int argc, char *argv[])
 
 	Rect *top_head = create_rect(init_x, init_y, 0, g, 0, half_square);
 	Rect *bottom_head = create_rect(init_x, init_y + 1, 0, g, 0, half_square);
-	Rect *top_body = create_rect(init_x + width_square, init_y, 0, g - 1, 0, half_square);
-	Rect *bottom_body = create_rect(init_x + width_square, init_y + 1, 0, g - 1, 0, half_square);
-	Rect *top_body_2 = create_rect(init_x + width_square * 2, init_y, 0, g - 2, 0, half_square);
-	Rect *bottom_body_2 = create_rect(init_x + width_square * 2, init_y + 1, 0, g - 2, 0, half_square);
 	Rect *top_apple = create_rect(w / 2, init_y, r, 0, 0, half_square);
         Rect *bottom_apple = create_rect(w / 2, init_y + 1, r, 0, 0, half_square);
 
-	Rect *head[2] = { top_head, bottom_head };
-	Rect *body[2] = { top_body, bottom_body };
-	Rect *body_2[2] = { top_body_2, bottom_body_2 };
-	Rect *apple[2] = { top_apple, bottom_apple };
+	Rect **head = (Rect **) malloc(sizeof (Rect *) * 2);
+	head[0] = top_head;
+	head[1] = bottom_head;
+
+	Rect **apple = (Rect **) malloc(sizeof (Rect *) * 2);
+	apple[0] = top_apple;
+	apple[1] = bottom_apple;
 
 	Snake *snake_head = create_snake(head, 2, NULL, LEFT, dec_x, 0);
-	Snake *snake_body = create_snake(body, 2, snake_head, LEFT, 0, 0);
-	Snake *snake_body_2 = create_snake(body_2, 2, snake_body, LEFT, 0, 0);
 	Snake *snake_apple = create_snake(apple, 2, NULL, BORDER, 0, 0);
+
+	Snake *snake_tail = snake_head;
+
+	for (int i = 1; i < 3; i++) 
+	{
+		snake_tail = add_to_tail_snake(snake_tail, width_square, heigth_square);
+	}
 
 	command_screen(CLEAR_SCREEN);
         command_screen(HIDE_CURSOR);
 	init_control(); // IMPORTANT: getch in control_snake won't work without this
-	
-	Snake *snake_tail = snake_body_2;
 	
 	for (;;) 
 	{
@@ -81,8 +83,8 @@ int main(int argc, char *argv[])
 		}
 		if (check_collision_with_apple(snake_head, snake_apple, width_square, heigth_square)) 
 		{
-			int rand_x = get_rand_int_in_range(1, w);
-			int rand_y = get_rand_int_in_range(0, h);
+			int rand_x = get_rand_int_in_range(1, w - width_square);
+			int rand_y = get_rand_int_in_range(4, h - heigth_square);
 			
 			char log[20];
 			sprintf(log, "new position: x=%d, y=%d\n", rand_x, rand_y);
@@ -118,5 +120,6 @@ int main(int argc, char *argv[])
 	}
 	
 	free_snake(snake_tail);
+	free_snake(snake_apple);
 	free(half_square);
 }

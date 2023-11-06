@@ -35,6 +35,7 @@ void free_snake(Snake *snake_tail)
                 {
                         free(curr->rects[i]);
                 }
+		free(curr->rects);
                 free(curr);
         }
 }
