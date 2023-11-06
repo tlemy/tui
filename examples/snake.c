@@ -88,6 +88,9 @@ int main(int argc, char *argv[])
 			sprintf(log, "new position: x=%d, y=%d\n", rand_x, rand_y);
 			write_log(logs, &log);
 
+			sprintf(log, "color: %d\n", snake_tail->rects[0]->g);
+                        write_log(logs, &log);
+
 			for (int i = 0; i < snake_apple->len; i++) 
 			{
 				snake_apple->rects[i]->x = rand_x;

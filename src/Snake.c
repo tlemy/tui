@@ -121,7 +121,7 @@ int check_collision_with_apple(Snake *snake, Snake *apple, int width_square, int
 	|| (left_border <= snake->rects[0]->x + width_square && snake->rects[0]->x + width_square <= right_border);
 	
 	int is_in_y = (top_border <= snake->rects[0]->y && snake->rects[0]->y <= bottom_border)
-	|| (top_border <= snake->rects[0]->y && snake->rects[0]->y + heigth_square <= bottom_border);
+	|| (top_border <= snake->rects[0]->y + heigth_square && snake->rects[0]->y + heigth_square <= bottom_border);
 
 	return is_in_x && is_in_y;	
 }
@@ -148,8 +148,8 @@ Snake *add_to_tail_snake(Snake *snake_tail, int width_square, int height_square)
 		y -= height_square;
 	}
 
-	Rect *top_tail = create_rect(x, y, 0, snake_tail->rects[0]->g - (snake_tail->i + 1), 0, snake_tail->rects[0]->str);
-        Rect *bottom_tail = create_rect(x, y + 1, 0, snake_tail->rects[0]->g - (snake_tail->i + 1), 0, snake_tail->rects[0]->str);
+	Rect *top_tail = create_rect(x, y, 0, snake_tail->rects[0]->g - 1, 0, snake_tail->rects[0]->str);
+        Rect *bottom_tail = create_rect(x, y + 1, 0, snake_tail->rects[0]->g - 1, 0, snake_tail->rects[0]->str);
 	Rect **tail = (Rect **) malloc(sizeof (Rect *) * 2);
 	tail[0] = top_tail;
 	tail[1] = bottom_tail;
