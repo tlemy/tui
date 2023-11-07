@@ -86,12 +86,12 @@ int main(int argc, char *argv[])
 			int rand_x = get_rand_int_in_range(1, w - width_square);
 			int rand_y = get_rand_int_in_range(4, h - heigth_square);
 			
-			char log[20];
+			char log[30];
 			sprintf(log, "new position: x=%d, y=%d\n", rand_x, rand_y);
-			write_log(logs, &log);
+			write_log(logs, log);
 
 			sprintf(log, "color: %d\n", snake_tail->rects[0]->g);
-                        write_log(logs, &log);
+                        write_log(logs, log);
 
 			for (int i = 0; i < snake_apple->len; i++) 
 			{
@@ -111,7 +111,7 @@ int main(int argc, char *argv[])
 		
 		char log[20];
                 sprintf(log, "snake: x=%d, y=%d\n", snake_head->rects[0]->x, snake_head->rects[0]->y);
-                write_log(logs, &log);
+                write_log(logs, log);
 			
 		draw_multiple_rect(snake_apple->len, snake_apple->rects);	
 		draw_and_move_snake(snake_head, snake_tail, w, h, width_square, heigth_square);

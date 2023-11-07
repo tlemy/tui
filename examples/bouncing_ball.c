@@ -17,10 +17,10 @@ int main(int argc, char *argv[])
 	int y = h / 2;
 	int len = strlen(square);
 	
-	Rect *top_left_square = create_rect(x - 2, y, 255, 0, 0, &square);
-	Rect *top_right_square = create_rect(x, y, 255, 255, 0, &square);
-	Rect *bottom_left_square = create_rect(x - 2, y + 1, 0, 255, 0, &square);
-	Rect *bottom_right_square = create_rect(x, y + 1, 0, 0, 255, &square);
+	Rect *top_left_square = create_rect(x - 2, y, 255, 0, 0, square);
+	Rect *top_right_square = create_rect(x, y, 255, 255, 0, square);
+	Rect *bottom_left_square = create_rect(x - 2, y + 1, 0, 255, 0, square);
+	Rect *bottom_right_square = create_rect(x, y + 1, 0, 0, 255, square);
 	
 	Rect *image[4] = 
 	{
