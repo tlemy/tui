@@ -48,7 +48,7 @@ Snake *add_body(Snake *curr, Snake *new)
 
 int control_snake(Snake *snake_head, int inc_x, int dec_x, int inc_y, int dec_y) 
 {
-	char *c = getch();
+	char c = getch();
 
         if (c == 'q')
         {

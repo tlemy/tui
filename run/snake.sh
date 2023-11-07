@@ -1,5 +1,5 @@
 
-xset r rate 1 1000
+xset r rate 1 
 
 LINES=$(tput cols)
 ROWS=$(tput lines)

@@ -1,8 +1,12 @@
 # tui
 
-1. go into the tui directory
-2. $ make snake
-3. $ ./run/snake.sh
-4. wasd to move the snake q to quit
-
-
+### First compile the code
+```
+mkdir build
+make snake
+```
+### Now to run the snake game
+```
+run/snake.sh
+```
+You can play with WASD keys, and to quit press Q and any time
