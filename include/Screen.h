@@ -1,3 +1,6 @@
+#ifndef SCREEN_H
+#define SCREEN_H
+
 #define CODE_MAX_LEN 10
 
 #define CLEAR_SCREEN_CODE "\033[2J"
@@ -18,3 +21,5 @@ typedef enum
 int command_screen(Command cmd);
 
 int save_screen();
+
+#endif /* Screen.h */

@@ -1,3 +1,6 @@
+#ifndef SNAKE_H
+#define SNAKE_H
+
 #include "Rect.h"
 #include "Control.h"
 
@@ -38,3 +41,5 @@ void draw_and_move_snake(Snake *snake_head, Snake *snake, int w, int h, int widt
 int check_collision_with_apple(Snake *snake, Snake *apple, int width_square, int heigth_square);
 
 Snake *add_to_tail_snake(Snake *snake_tail, int width_square, int height_square);
+
+#endif /* Snake.h */

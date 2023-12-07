@@ -1,3 +1,6 @@
+#ifndef RECT_H
+#define RECT_H
+
 
 typedef struct Rect
 {
@@ -22,3 +25,5 @@ int draw_multiple_rect(int len, Rect **rect);
 void move_rect_by(int x, int y, Rect *rect);
 
 void move_multiple_rect_by(int x, int y, int len, Rect **rect);
+
+#endif /* Rect.h */
